@@ -1,7 +1,11 @@
-
 function loadWidget(config) {
-	let { waifuPath, apiPath, cdnPath } = config;
-	let useCDN = false, modelList;
+	let {
+		waifuPath,
+		apiPath,
+		cdnPath
+	} = config;
+	let useCDN = false,
+		modelList;
 	if (typeof cdnPath === "string") {
 		useCDN = true;
 		if (!cdnPath.endsWith("/")) cdnPath += "/";
@@ -158,15 +162,18 @@ function loadWidget(config) {
 			modelTexturesId = localStorage.getItem("modelTexturesId");
 		if (modelId === null) {
 			// 首次访问加载 指定模型 的 指定材质
-			modelId = 1; // 模型 ID
-			modelTexturesId = 53; // 材质 ID
+			modelId = 5; // 模型 ID
+			modelTexturesId = 9; // 材质 ID
 		}
 		loadModel(modelId, modelTexturesId);
 		fetch(waifuPath)
 			.then(response => response.json())
 			.then(result => {
 				window.addEventListener("mouseover", event => {
-					for (let { selector, text } of result.mouseover) {
+					for (let {
+							selector,
+							text
+						} of result.mouseover) {
 						if (!event.target.matches(selector)) continue;
 						text = randomSelection(text);
 						text = text.replace("{text}", event.target.innerText);
@@ -175,7 +182,10 @@ function loadWidget(config) {
 					}
 				});
 				window.addEventListener("click", event => {
-					for (let { selector, text } of result.click) {
+					for (let {
+							selector,
+							text
+						} of result.click) {
 						if (!event.target.matches(selector)) continue;
 						text = randomSelection(text);
 						text = text.replace("{text}", event.target.innerText);
@@ -183,7 +193,10 @@ function loadWidget(config) {
 						return;
 					}
 				});
-				result.seasons.forEach(({ date, text }) => {
+				result.seasons.forEach(({
+					date,
+					text
+				}) => {
 					const now = new Date(),
 						after = date.split("-")[0],
 						before = date.split("-")[1] || after;
@@ -271,6 +284,7 @@ function initWidget(config, apiPath) {
 			localStorage.removeItem("waifu-display");
 			document.getElementById("waifu").style.display = "";
 			setTimeout(() => {
+				document.getElementById("waifu").style.right = 0;
 				document.getElementById("waifu").style.bottom = 0;
 			}, 0);
 		}
